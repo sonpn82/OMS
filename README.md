@@ -2,7 +2,7 @@
 A simple order management program using Nodejs
 The development strictly follow "The web development bootcamp" from Colt Steele in Udemy.
 
-The program was built using Nodejs & mongodb for database part.
+The program was built using Nodejs back-end, bootstrap for CSS & mongodb for database part.
 The structure of the program is as below:
   - models folder: contain models for customer, order, product & user
   - views folder: contain view in .ejs form for customers, products, orders, users & report
