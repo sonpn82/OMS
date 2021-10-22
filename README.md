@@ -1,4 +1,4 @@
-# OMS-github
+# OMS-program
 A simple order management program using Nodejs
 The development strictly follow "The web development bootcamp" from Colt Steele in Udemy.
 
