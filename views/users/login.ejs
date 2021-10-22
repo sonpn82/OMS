@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="container d-flex justify-content-center align-items-center mt-2">
+        <div class="row">
+            <div class="col-auto">
+                <div class="card shadow">                   
+                    <div class="card-body">
+                        <h5 class="card-title">Đăng nhập</h5>
+                        <form action="/login" class="validated-form" novalidate method="POST">
+                            <div class='mb-3'>
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" autofocus required>
+                                <div class="valid-feedback">Giá trị hợp lệ!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" required>
+                                <div class="valid-feedback">Giá trị hợp lệ!</div>
+                            </div>
+                            <button class="btn btn-success btn-block">Đăng nhập</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

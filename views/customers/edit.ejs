@@ -1,0 +1,31 @@
+<% layout('/layouts/boilerplate') %>
+ <div class="row">
+     <h1 class="text-center">Cập nhật thông tin khách hàng</h1>
+     <div class="col-md-6 offset-md-3">
+         <form action="/customers/<%= customer._id %>/?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên khách hàng</label>
+                <input type="text" class="form-control" id="name" name="customer[name]" value="<%= customer.name %>" required>
+                <div class="valid-feedback">Giá trị hợp lệ</div>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" id="phone" name="customer[phone]" value="<%= customer.phone %>" required>
+                <div class="valid-feedback">Giá trị hợp lệ</div>
+            </div>     
+            <div class="mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="customer[address]" value="<%= customer.address %>" required>
+                <div class="valid-feedback">Giá trị hợp lệ</div>
+            </div>   
+            <div class="mb-3">
+                <label for="note" class="form-label">Ghi chú</label>
+                <textarea class="form-control" name="customer[note]" id="note" cols="30" rows="2"><%= customer.note %></textarea>
+            </div>           
+            <div class="mb-3">
+                <button class="btn btn-success">Cập nhật khách hàng</button>
+            </div>            
+        </form>
+        <a href="/customers">Quay về danh sách khách hàng</a>
+     </div>
+ </div>

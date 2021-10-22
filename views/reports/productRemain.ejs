@@ -1,0 +1,29 @@
+<% layout('/layouts/boilerplate') %> 
+<h5 class="fw-bold mb-3">Danh sách hàng tồn kho</h5>
+
+<div class="mb-2">
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên</th>
+                <th scope="col">NSX</th>
+                <th scope="col">Ngày nhập</th>
+                <th scope="col">Tồn</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% for (let i=0; i<products.length; i++) { %> 
+              <tr>
+                <th scope="row"><%= i+1 %></th>
+                <td><a href="/products/<%= products[i]._id %>"><%= products[i].name %></a></td>               
+                <td><%= products[i].manufacturer %></td>
+                <td><%= products[i].date.toISOString().slice(0,10) %></td>
+                <td><%= products[i].quantity_remain %></td>
+              </tr>              
+              <% } %> 
+            </tbody>
+          </table>
+    </div>    
+</div>

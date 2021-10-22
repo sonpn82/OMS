@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate') %> 
+
+<div class="container d-flex justify-content-center align-items-center mt-2">
+    <div class="row">
+        <div class="col-auto">
+            <div class="card shadow">
+                 <div class="card-body">
+                    <h5 class="card-title">Register</h5>
+                    <form action="/register" class="validated-form" novalidate method="POST">
+                        <div class='mb-3'>
+                            <label class="form-label" for="username">Username</label>
+                            <input class="form-control" type="text" id="username" name="username" required autofocus>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class='mb-3'>
+                            <label class="form-label" for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class='mb-3'>
+                            <label class="form-label" for="password">Password</label>
+                            <input class="form-control" type="password" id="password" name="password" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="true" id="isAdmin" name="isAdmin">
+                            <label class="form-check-label" for="isAdmin">
+                              Là Admin
+                            </label>
+                          </div>                        
+                        <button class="btn btn-success btn-block">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

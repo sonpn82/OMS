@@ -1,0 +1,16 @@
+<footer class="footer bg-dark py-3 mt-auto">
+    <div class="container">
+        <div class="row">
+            <div class="col-6"> 
+                <span class="text-muted">&copy;Indi 2021</span>
+            </div>
+            <div class="col-6">       
+                <div class="d-flex flex-row-reverse">          
+                    <% if(currentUser) {%> 
+                    <span class="text-muted"><%= currentUser.username %></span>                                      
+                    <% } %> 
+                </div>                                  
+            </div> 
+        </div>          
+    </div>   
+</footer>

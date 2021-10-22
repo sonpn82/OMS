@@ -1,0 +1,39 @@
+<% layout('/layouts/boilerplate') %> 
+
+<div class="row">
+    <div class="col-sm-7 col-md-8 col-lg-9 mb-2 mb-sm-0"> 
+        <div>
+            <a class="btn btn-primary" href="/customers/new">Tạo khách hàng mới</a>
+        </div>
+    </div>
+    <div class="col-sm-5 col-md-4 col-lg-3">       
+        <form class="form-inline mb-2" action="/customers" method="GET" role="search"> 
+            <div class="d-flex flex-row flex-sm-row-reverse">
+                <div>
+                    <button class="btn btn-info mb-2" type="submit">Tìm kiếm khách hàng</button>  
+                </div>                
+            </div>                 
+            <input class="form-control"  type="search" id="customer-search" name="q" placeholder="Tên khách, số đt">   
+        </form>        
+    </div>
+</div>
+
+<% if (customers.length) { %> 
+    <p class="text-muted mb-2">Tìm thấy <%= customers.length %> khách hàng </p>
+<% } else { %> 
+    <p class="text-muted mb-2">Không tìm thấy khách hàng</p>
+<% } %>
+
+<% for(let customer of customers) { %>
+    <div class="card mb-3">
+        <div class="row">           
+            <div class="col-md-8 offset-md-2">
+                <div class="card-body">
+                    <h5 class="card-title"><%= customer.name %></h5>
+                    <p class="card-text"><%= customer.phone %></p>
+                    <a href="/customers/<%= customer._id %>" class="btn btn-info">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %> 

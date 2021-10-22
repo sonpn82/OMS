@@ -1,0 +1,52 @@
+<% layout('/layouts/boilerplate') %>
+ <div class="row">
+     <h1 class="text-center">Cập nhật sản phẩm</h1>
+     <div class="col-md-6 offset-md-3">
+        <form action="/orders/<%= order._id %>/products/<%= products._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-2">
+                <label for="name" class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="name" name="products[name]" value="<%= products.name %>" readonly required>
+                <div class="valid-feedback">Giá trị hợp lệ</div>
+            </div>
+            <div class="mb-2">
+                <label for="manufacturer" class="form-label">Nhà sản xuất</label>
+                <input type="text" class="form-control" id="manufacturer" name="products[manufacturer]" value="<%= products.manufacturer %>" readonly required>
+                <div class="valid-feedback">Giá trị hợp lệ</div>
+            </div>          
+            <div class="mb-2">
+                <label for="price_base" class="form-label">Giá gốc</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price_base_label">VND</span>
+                    <input type="text" class="form-control" id="price_base" name="products[price_base]" placeholder="0.0" 
+                            aria-label="price_base" aria-describedby="price_base_label" value="<%= products.price_base %>" readonly required>                
+                </div>
+            </div>          
+            <div class="mb-2">
+                <label for="price_sell" class="form-label">Giá bán</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price_sell_label">VND</span>
+                    <input type="text" class="form-control" id="price_sell" name="products[price_sell]" placeholder="0.0" 
+                            aria-label="price_sell" aria-describedby="price_sell_label" value="<%= products.price_sell %>" required>                
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="sale" class="form-label">Khuyến mãi giảm giá</label>
+                <div class="input-group">                    
+                    <input type="number" class="form-control" id="sale" name="products[sale]" placeholder="0" 
+                            aria-label="sale" aria-describedby="sale_label" step="0.1" min="0" max="100" value="<%= products.sale %>" required>   
+                    <span class="input-group-text" id="sale_label">%</span>             
+                </div>                
+            </div>
+            <div class="mb-2">
+                <label for="quantity" class="form-label">Số lượng</label>                
+                <input type="number" class="form-control" id="quantity" name="products[quantity]" placeholder="0" min="0" value="<%= products.quantity %>" required>         
+                <div class="valid-feedback">Giá trị hợp lệ!</div>           
+            </div>        
+
+            <div class="mb-2">
+                <button class="btn btn-success">Cập nhật sản phẩm</button>
+            </div>            
+        </form>
+        <a href="/orders/<%= order._id %>">Quay về đơn hàng</a>
+     </div>
+ </div>

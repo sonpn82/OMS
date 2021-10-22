@@ -1,0 +1,48 @@
+<% layout('/layouts/boilerplate') %> 
+
+<div class="row">
+    <div class="col-sm-7 col-md-8 col-lg-9 mb-2 mb-sm-0"> 
+        <div>
+            <a class="btn btn-primary" href="/orders/new">Tạo đơn hàng mới</a>
+        </div>
+    </div>
+    <div class="col-sm-5 col-md-4 col-lg-3">       
+        <form class="form-inline mb-2" action="/orders" method="GET" role="search"> 
+            <div class="d-flex flex-row flex-sm-row-reverse">
+                <div>
+                    <button class="btn btn-info mb-2" type="submit">Tìm kiếm đơn hàng</button>  
+                </div>                
+            </div>                 
+            <input class="form-control"  type="search" id="order-search" name="q" placeholder="Tên khách, #mã đơn">   
+        </form>        
+    </div>
+</div>
+
+<% if (orders.length) { %> 
+    <p class="text-muted mb-2">Tìm thấy <%= orders.length %> đơn hàng </p>
+<% } else { %> 
+    <p class="text-muted mb-2">Không tìm thấy đơn hàng</p>
+<% } %>
+
+<% for(let order of orders) { %>
+    <div class="card mb-3  <%= order.close ? '' : 'border-danger' %>">
+        <div class="row">           
+            <div class="col-md-8">
+                <% if(!order.close) { %> 
+                    <h5 class="card-header">Đơn chưa hoàn thành</h5>
+                <% } %> 
+                <div class="card-body">
+                    <h5 class="card-title <%= order.close ? '' : 'text-danger' %>"><%= order.no %></h5>
+                    <% if(order.customers) { %>
+                        <p class="card-text text-muted"><%= order.customers.name %></p>
+                    <% } %>                
+                        <ul class="list-group list-group-flush">                          
+                        <li class="list-group-item">Ngày: <%= order.date.toISOString().slice(0,10) %></li>
+                        <li class="list-group-item">Giá trị: <%= order.totalPrice.toLocaleString('en-US') %> VND</li>                    
+                    </ul>  
+                    <a href="/orders/<%= order._id %>" class="btn btn-info">Xem chi tiết</a>
+                </div>               
+            </div>
+        </div>
+    </div>
+<% } %> 

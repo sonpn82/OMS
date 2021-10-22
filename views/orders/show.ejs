@@ -1,0 +1,204 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="row">
+    <div class="col-sm-6">       
+        <h5 class="mb-2 fw-bold">Thông tin cơ bản</h5>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= order.no %>
+                </h5>
+                <p class="card-text">
+                    <%= order.date.toISOString().slice(0,10) %> 
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">                          
+                <li class="list-group-item">
+                    Ghi chú: <%= order.note %> 
+                </li>
+            </ul>
+            <% if(order.close) { %> 
+                <div class="card-body">               
+                    <form action="/orders/<%= order._id %>/print" method="GET">
+                        <button class="btn btn-info">In đơn hàng</button>
+                    </form>
+                </div>
+            <% }else { %> 
+                <div class="card-body">
+                    <a href="/orders/<%= order._id %>/edit" class="card-link btn btn-sm btn-info mb-2 mb-lg-0">Sửa thông tin cơ bản</a>
+                    <form action="/orders/<%= order._id %>?_method=DELETE" class="d-lg-inline" method="POST">
+                       <button class="btn btn-sm btn-danger">Xóa đơn hàng</button>
+                   </form>
+                </div>
+            <% } %> 
+                    
+        </div>     
+
+        <h5 class="mb-2 fw-bold">Thông tin khách hàng</h5>
+        <% if(order.customers) { %> 
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><%= order.customers.name %></h5>                 
+                <p class="card-text text-muted">Số điện thoại: <%= order.customers.phone %></p>
+                <ul class="list-group list-group-flush">                          
+                    <li class="list-group-item">Địa chỉ ship: <%= order.customers.address %></li>
+                    <li class="list-group-item">Phí ship: <%= order.customers.shipFee.toLocaleString('en-US') %></li>
+                </ul>
+                <% if (!order.close) { %>
+                <div class="card-body">
+                    <a href="/orders/<%= order._id %>/customers/<%= order.customers._id %>/edit" class="card-link btn btn-sm btn-info mb-2 mb-lg-0">
+                        Sửa thông tin khách</a>
+                    <form action="/orders/<%= order._id %>/customers/<%= order.customers._id %>?_method=DELETE"
+                        method="POST" class="d-lg-inline" >
+                          <button class="btn btn-sm btn-danger">Xóa khách hàng</button>
+                      </form> 
+                </div>
+                <% } %>                                                    
+            </div>
+        </div>           
+        <% } %> 
+
+        <h5 class="mb-3 fw-bold">Danh sách sản phẩm</h5>
+
+        <% for (let product of order.products) { %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><%= product.name %></h5>
+                    <p class="card-text text-muted">Nhà sản xuất: <%= product.manufacturer %></p>         
+                    <ul class="list-group list-group-flush">                          
+                        <li class="list-group-item">Giá bán: <%= product.price_sell.toLocaleString('en-US') %></li>
+                        <li class="list-group-item">Giảm giá: <%= product.sale %>%</li>
+                        <li class="list-group-item">Số lượng: <%= product.quantity %></li>
+                    </ul>    
+                    <% if (!order.close) { %> 
+                    <div class="card-body">                        
+                        <a href="/orders/<%= order._id %>/products/<%= product._id %>/edit" class="card-link btn btn-sm btn-info mb-2 mb-lg-0">
+                            Sửa thông tin sản phẩm</a>
+                        <form action="/orders/<%= order._id %>/products/<%= product._id %>?_method=DELETE"
+                            method="POST" class="d-lg-inline" >
+                            <button class="btn btn-sm btn-danger">Xóa sản phẩm</button>
+                        </form>   
+                    </div>        
+                    <% } %>      
+                </div>
+            </div>           
+        <% } %>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Tổng đơn hàng: <%= order.totalPrice.toLocaleString('en-US') %> VND
+                </h5>
+                <p class="card-text">
+                    Lợi nhuận: <%= order.profit.toLocaleString('en-US') %> VND 
+                </p>
+            </div>
+            <% if(order.totalPrice > 0) { %>          
+                <div class="card-body">               
+                    <form action="/orders/<%= order._id %>/close" method="POST">
+                        <button class="btn <%= order.close ? 'btn-danger' : 'btn-success'%>"><%= order.close ?  'Hủy đơn hàng' : 'Chốt đơn hàng' %></button>
+                    </form>
+                </div>               
+            <% } %>      
+        </div>                   
+        
+        <div class="card-body text-muted">
+            <a href="/orders">Quay về danh sách đơn hàng</a>
+        </div>
+    </div>  
+
+    <% if (!order.close) { %>
+
+    <div class="col-sm-6" id="customerSearch">
+        <div class="mb-2">
+            <form class="form-inline my-2" action="/orders/<%= order._id %>/customers" method="GET" role="search">
+                <label class="label fw-bold" for="customer-search">Tìm kiếm khách hàng</label>
+                <input class="form-control mr-2"  type="search" id="customer-search" name="q" placeholder="Tên khách hàng" required>   
+                <button class="btn btn-info my-2" type="submit">Tìm kiếm</button>
+            </form>   
+        </div>
+
+        <div class="mb-2">
+            <% if (findCustomers.length) { %>  
+                <% findCustomers.forEach(function(findCustomer, i) { %>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= findCustomer.name %></h5>                 
+                            <p class="card-text">Số điện thoại: <%= findCustomer.phone %></p>                                            
+                            <form action="/orders/<%= order._id %>/customers/<%= findCustomer._id %>" method="POST">
+                                <div class="form group row mb-1">
+                                    <label class="col-sm-4 col-form-label" for="customer-<%= i %>">Địa chỉ ship hàng</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" id="customer-<%= i %>" name="customerAddress[]" value="<%= findCustomer.address %>">
+                                    </div>
+                                    <label class="col-sm-4 col-form-label" for="shipFee-<%= i %>">Phí ship</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="number" id="shipFee-<%= i %>" name="shipFee[]" value="0">
+                                    </div>                           
+                                </div> 
+                                <button class="btn btn-sm btn-success">Chọn khách hàng</button>
+                            </form>                  
+                        </div>
+                    </div>           
+                <% }) %>
+           <% } %> 
+        </div>  
+
+        <div class="mb-2" id="productSearch">
+            <form class="form-inline my-2" action="/orders/<%= order._id %>/products" method="GET" role="search">
+                <label class="label fw-bold" for="product-search">Tìm kiếm sản phẩm</label>
+                <input class="form-control mr-2"  type="search" id="product-search" name="q" placeholder="Tên sản phẩm" required>   
+                <button class="btn btn-info my-2" type="submit">Tìm kiếm</button>
+            </form>   
+        </div>
+     
+        <div class="mb-2">
+            <% if (findProducts.length) { %>  
+                <% findProducts.forEach(function(findProduct, i) { %>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= findProduct.name %></h5>                 
+                            <p class="card-text">Nhà sản xuất: <%= findProduct.manufacturer %></p>    
+                            <p class="card-text">Tồn kho: <%= findProduct.quantity_remain %></p>                                           
+                            <form action="/orders/<%= order._id %>/products/<%= findProduct._id %>" method="POST">
+                                <div class="form group row mb-1">                                   
+                                    <label class="col-sm-4 col-form-label" for="product-<%= i %>">Số lượng</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="number" id="product-<%= i %>" name="productQuantity[]">
+                                    </div>                                
+                                </div> 
+                                <button class="btn btn-sm btn-success">Thêm vào đơn hàng</button>
+                            </form>                  
+                        </div>
+                    </div>           
+                <% }) %>
+           <% } %> 
+        </div>     
+    </div>
+    <% } %> 
+</div>
+
+<script>
+    window.onload = async function() {
+        let productSearch = <%-JSON.stringify(findProducts)%>;
+        let customerSearch = <%-JSON.stringify(findCustomers)%>;
+        const mediaWidth = window.matchMedia("(max-width: 570px)");
+
+        if (mediaWidth.matches) {
+            if(productSearch.length) {     
+                document.querySelector("body").style.visibility = "hidden";          
+                document.getElementById("productSearch").scrollIntoView({behavior: 'smooth'});
+                await delay(500);
+            }   else if (customerSearch.length) {
+                document.querySelector("body").style.visibility = "hidden"; 
+                document.getElementById("customerSearch").scrollIntoView({behavior: 'smooth'});
+                await delay(500);
+            }
+        }
+        document.querySelector("body").style.visibility = "visible";       
+    }
+
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+}
+</script>

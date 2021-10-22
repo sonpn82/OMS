@@ -1,0 +1,46 @@
+<% layout('/layouts/boilerplate') %> 
+
+<div class="row">
+    <div class="col-sm-7 col-md-8 col-lg-9 mb-2 mb-sm-0"> 
+        <div>
+            <a class="btn btn-primary" href="/products/new">Tạo sản phẩm mới</a>
+        </div>
+    </div>
+    <div class="col-sm-5 col-md-4 col-lg-3">       
+        <form class="form-inline mb-2" action="/products" method="GET" role="search"> 
+            <div class="d-flex flex-row flex-sm-row-reverse">
+                <div>
+                    <button class="btn btn-info mb-2" type="submit">Tìm kiếm sản phẩm</button>  
+                </div>                
+            </div>                 
+            <input class="form-control"  type="search" id="product-search" name="q" placeholder="Tên sp, #Nhà sx">   
+        </form>        
+    </div>   
+</div>
+
+<% if (products.length) { %> 
+    <p class="text-muted mb-2">Tìm thấy <%= products.length %> sản phẩm</p>
+<% } else { %> 
+    <p class="text-muted mb-2">Không tìm thấy sản phẩm</p>
+<% } %>
+
+<% for(let product of products) { %>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-sm-4">
+                <% if(product.images.length) { %>
+                    <img src="<%= product.images[0].thumbnail %>" class="img-thumbnail" alt="Invalid image">                    
+                <% }else { %> 
+                    <img src="" alt="" class="img-fluid">
+                <% } %> 
+            </div>
+            <div class="col-sm-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= product.name %></h5>
+                    <p class="card-text"><%= product.manufacturer %></p>
+                    <a href="/products/<%= product._id %>" class="btn btn-info">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %> 

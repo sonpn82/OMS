@@ -1,0 +1,103 @@
+<% layout('/layouts/boilerplate') %> 
+<h5 class="mb-3 fw-bold">Doanh thu bán hàng</h5>
+
+<div class="mb-2">
+  <form class="form-inline my-2" action="/reports/saleDetail" method="POST">
+    <div class="mb-3">
+      <div class="mb-1 d-sm-inline">
+        <label class="label" for="product-search">Bắt đầu:&nbsp; </label>
+        <input type="month" id="startTime" name="startTime" value="<%= startTime %>">
+      </div>
+      <div class="mb-1 d-sm-inline p-sm-2">
+        <label class="label" for="product-search">Kết thúc:</label>
+        <input type="month" id="endTime" name="endTime" value="<%= endTime %>">
+      </div>
+    </div>    
+  
+    <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="reportType" id="btnradio1" autocomplete="off" value="detail" <%= reportType === 'detail' ? 'checked' : '' %>>
+      <label class="btn btn-outline-secondary btn-sm" for="btnradio1">Chi tiết</label>
+        
+      <input type="radio" class="btn-check" name="reportType" id="btnradio2" autocomplete="off" value="general" <%= reportType === 'general' ? 'checked' : '' %>>
+      <label class="btn btn-outline-secondary btn-sm" for="btnradio2">Tổng hợp</label>     
+    </div>  
+    <div>
+      <button class="btn btn-info mb-2" type="submit">In báo cáo</button>
+    </div>         
+  </form>   
+</div>
+
+<div class="mb-2">
+  <% if(isDetail) { %> 
+    <div class="table-responsive">
+      <table class="table table-sm table-hover">
+          <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Khách</th>                
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Hàng</th>
+                <th scope="col">Giá trị</th>
+                <th scope="col">Lãi</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% for (let i=0; i<orders.length; i++) { %> 
+              <tr>
+                <th scope="row"><%= i+1 %></th>
+                <td><a href="/orders/<%= orders[i]._id %>"><%= orders[i].customers.name %></a></td>               
+                <td><%= orders[i].date.toISOString().slice(0,10) %></td>
+                <td><a href="/orders/<%= orders[i]._id %>"><%= orders[i].products[0].name.substring(0,10) %>...</a></td>
+                <td><%= orders[i].totalPrice.toLocaleString('en-US') %></td>
+                <td><%= orders[i].profit.toLocaleString('en-US') %></td>
+              </tr>              
+            <% } %>
+            <% if (orders.length) { %>   
+                <tr class="table-primary">
+                  <th scope="row"></th>
+                  <td>Tổng:</td>               
+                  <td></td>
+                  <td></td>
+                  <td><%= totalSale.toLocaleString('en-US') %> VND</td>
+                  <td><%= totalProfit.toLocaleString('en-US') %> VND</td>
+                </tr> 
+            <% } %> 
+          </tbody>
+        </table>
+    </div> 
+  <% }else { %>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>                   
+              <th scope="col">Tháng</th>
+              <th scope="col">Số đơn</th>       
+              <th scope="col">Giá trị</th>
+              <th scope="col">Lãi</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% for (let i=0; i<saleSummary.length; i++) { %> 
+            <tr>
+              <th scope="row"><%= i+1 %></th>                  
+              <td><%= saleSummary[i].date %></td>
+              <td><%= saleSummary[i].orderNo %></td>           
+              <td><%= saleSummary[i].sale.toLocaleString('en-US') %></td>
+              <td><%= saleSummary[i].profit.toLocaleString('en-US') %></td>
+            </tr>              
+            <% } %>
+            <% if (saleSummary.length) { %>   
+              <tr class="table-primary">
+                <th scope="row"></th>
+                <td>Tổng:</td>
+                <td><%= totalOrder %></td>                                       
+                <td><%= totalSale.toLocaleString('en-US') %> VND</td>
+                <td><%= totalProfit.toLocaleString('en-US') %> VND</td>
+              </tr> 
+            <% } %> 
+          </tbody>
+        </table>
+  </div> 
+  <% } %> 
+</div>

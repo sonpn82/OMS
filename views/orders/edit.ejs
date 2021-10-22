@@ -1,0 +1,24 @@
+<% layout('/layouts/boilerplate') %>
+ <div class="row">
+     <h1 class="text-center">Sửa thông tin đơn hàng</h1>
+     <div class="col-md-6 offset-md-3">
+         <form action="/orders/<%= order._id %>?_method=PUT" method="POST" novalidate class="validated-form">           
+            <div class="mb-2">
+                <label for="no" class="form-label">Mã đơn hàng</label>
+                <input type="text" class="form-control" id="no" name="order[no]" value="<%= order.no %>" readonly required>        
+            </div>
+            <div class="mb-2">
+                <label for="date" class="form-label">Ngày tạo đơn</label>
+                <input type="date" class="form-control" id="date" name="order[date]" value="<%= order.date.toISOString().slice(0, 10) %>" required>                
+            </div>                    
+            <div class="mb-2">
+                <label for="note" class="form-label">Ghi chú</label>
+                <textarea class="form-control" name="order[note]" id="note" cols="30" rows="2"><%= order.note %></textarea>
+            </div>                 
+            <div class="mb-2">
+                <button class="btn btn-success">Lưu đơn hàng</button>
+            </div>
+        </form>
+        <a href="/orders">Quay về danh sách đơn hàng</a>
+     </div>
+ </div>

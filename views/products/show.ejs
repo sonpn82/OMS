@@ -1,0 +1,64 @@
+<% layout('/layouts/boilerplate') %>
+ 
+ <div class="row">
+     <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% product.images.forEach((img, i) => { %>
+              <div class="carousel-item <%= i===0 ? 'active' : '' %>">
+                <img src="<%= img.url %>" class="d-block w-100" alt="">
+              </div>
+              <% }) %>
+            </div>
+            <% if(product.images.length > 1) { %> 
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            <% } %> 
+          </div>
+         <div class="card mb-3">
+             <div class="card-body">
+                 <h5 class="card-title">
+                     <%= product.name %>
+                 </h5>
+                 <p class="card-text">
+                     <%= product.manufacturer %> 
+                 </p>
+             </div>
+             <ul class="list-group list-group-flush">
+                 <li class="list-group-item text-muted">
+                     Ngày nhập: <%= product.date.toISOString().slice(0,10) %> 
+                 </li>
+                 <li class="list-group-item">
+                     Số tồn kho / nhập: <%= product.quantity_remain %> / <%= product.quantity %>  
+                 </li>
+                 <li class="list-group-item text-muted">
+                     Giá gốc: <%= product.price_base.toLocaleString('en-US') %> VND
+                 </li>
+                 <li class="list-group-item">
+                     Giá bán: <%= product.price_sell.toLocaleString('en-US') %> VND
+                 </li>
+                 <li class="list-group-item">
+                    Giảm giá: <%= product.sale %>% 
+                </li>
+                 <li class="list-group-item">
+                     Ghi chú: <%= product.note %> 
+                 </li>
+             </ul>
+             <div class="card-body">
+                 <a href="/products/<%= product._id %>/edit" class="card-link btn btn-info mb-2 mb-sm-0">Sửa thông tin sản phẩm</a>
+                 <form action="/products/<%= product._id %>?_method=DELETE" class="d-sm-inline" method="POST">
+                    <button class="btn btn-danger">Xóa sản phẩm</button>
+                </form>
+             </div>
+             <div class="card-footer text-muted">
+                 <a href="/products">Quay về danh sách sản phẩm</a>
+             </div>
+         </div>
+     </div>
+ </div>
